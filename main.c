@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/15 22:44:11 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/15 23:52:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,40 @@ void ft_catch(int signal)
 	ft_putchar('\n');
 }
 
+void	ft_parse_env(char **env, t_env *envir)
+{
+	int index;
+
+	index = 0;
+	while (env[index])
+	{
+		envir = (t_env *)malloc(sizeof(t_env));
+		index++;
+	}
+}
+void	ft_setenv(char *key,char *value, t_env *env)
+{
+	while (env)
+	{
+		if (!ft_strcmp(env->key, key))
+		{
+			free(env->value);
+			env->value = ft_strdup(value);
+			return ;
+		}
+		env = env->next;
+	}
+	env = (t_env *)malloc(sizeof(t_env));
+	env->key = key;
+	env->value = value;
+}
+
 int		main(int argc, char **argv, char **env)
 {
-	char *command;
+	char		*command;
+	t_params	params;
+
+	params.paths = ft_getpaths(env);
 	if (argc && argv)
 		while (1)
 		{
