@@ -23,11 +23,22 @@ typedef struct	s_env
 {
 	char			*key;
 	char			*value;
-	struct s_env	*next;
 }				t_env;
 typedef struct	s_params
 {
-	char	**paths;
-	t_env	*env;
+	t_list	*env;
 }				t_params;
+void	ft_parse_env(char **env, t_params *params);
+void	ft_setenv(char *key,char *value, t_params *params);
+void	ft_env(t_list *list);
+char	**ft_getpaths(t_list *list);
+void	ft_pwd();
+void	ft_cd(char *location);
+t_stat	*ft_exist(char *file);
+char	*ft_find_file(char *file, t_list *list);
+void	ft_execute(char **cmd, t_params *params);
+void	ft_parse(char *command, t_params *params);
+void	ft_catch(int signal);
+char	**ft_get_env(t_list *list);
+char	*ft_get_env_key(char *key, t_list *list);
 #endif
