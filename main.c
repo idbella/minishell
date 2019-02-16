@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/15 23:52:39 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/16 10:44:14 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	ft_cd(char *location)
 		dir = "~";
 	if (chdir(dir))
 	{
-		ft_putendl("Error");
+		ft_putendl(dir);
+		ft_putendl(ft_strerror(errno));
 	}
 }
 
@@ -115,7 +116,7 @@ void	ft_execute(char **cmd, char **env)
 		}
 	}
 }
-
+void	ft_setenv(char *key,char *value, t_env **env);
 void	ft_parse(char *command, char **env)
 {
 	char **cmd;
@@ -141,30 +142,48 @@ void ft_catch(int signal)
 
 void	ft_parse_env(char **env, t_env *envir)
 {
-	int index;
+	int		index;
+	char	*key;
+	char	*value;
+	int		i;
 
 	index = 0;
 	while (env[index])
 	{
-		envir = (t_env *)malloc(sizeof(t_env));
+		i = 0;
+		while(env[index][i])
+		{
+			if (env[index][i] == ':')
+			{
+				key = ft_strsub(env[index], 0, i);
+			}
+			i++;
+		}
+		value = ft_strsub(env[index], i, ft_strlen(env[index]));
+		ft_setenv(key, value, &envir);
 		index++;
 	}
 }
-void	ft_setenv(char *key,char *value, t_env *env)
+
+void	ft_setenv(char *key,char *value, t_env **env)
 {
-	while (env)
+	t_env *envir;
+
+	envir = *env;
+	while (envir)
 	{
-		if (!ft_strcmp(env->key, key))
+		if (!ft_strcmp(envir->key, key))
 		{
-			free(env->value);
-			env->value = ft_strdup(value);
+			free(envir->value);
+			envir->value = ft_strdup(value);
 			return ;
 		}
-		env = env->next;
+		envir = envir->next;
 	}
-	env = (t_env *)malloc(sizeof(t_env));
-	env->key = key;
-	env->value = value;
+	printf("here\n");
+	envir = (t_env *)malloc(sizeof(t_env));
+	envir->key = key;
+	envir->value = value;
 }
 
 int		main(int argc, char **argv, char **env)
@@ -173,6 +192,8 @@ int		main(int argc, char **argv, char **env)
 	t_params	params;
 
 	params.paths = ft_getpaths(env);
+	ft_parse_env(env, params.env);
+	ft_putendl(params.env->key);
 	if (argc && argv)
 		while (1)
 		{
