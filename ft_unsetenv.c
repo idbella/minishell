@@ -1,39 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_unsetenv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 19:20:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/17 21:21:22 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+void    ft_unsetenv(char *key, t_params *params)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
+	t_list	*head;
+	t_list	*prev;
+	t_env	*env;
 
-	index = 0;
-	while (env[index])
+	head = params->env;
+	prev = NULL;
+	while (params->env)
 	{
-		i = 0;
-		while(env[index][i])
+		env = (t_env *)params->env->content;
+		if (!ft_strcmp(env->key, key)) 
 		{
-			if (env[index][i] == ':' || env[index][i] == '=')
+			free(env);
+			if (!prev)
 			{
-				key = ft_strsub(env[index], 0, i++);
-				break;
+				params->env = head->next;
 			}
-			i++;
+			else
+			{
+				prev->next = params->env->next;
+				params->env = head;
+				free(params->env);
+			}
+			return ;
 		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));	
-		ft_setenv(key, value, params);
-		index++;
+		prev = params->env;
+		params->env = params->env->next;
+
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 16:53:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 06:14:58 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/17 22:49:45 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,11 @@ char    *ft_delchar(char *str, int index);
 int		ft_isbuilt_in(char *name);
 void    ft_built_in(char *name, t_params *params);
 void    ft_echo(t_params *params);
+char	*ft_joinargs(char *str);
+char	*ft_delchar(char *str, int index);
+char	*ft_insertchar(char *str, char c, int index);
+void    ft_unsetenv(char *key, t_params *params);
+char    *ft_gethome(char *str, t_params *params);
+char	*ft_strcut(char *str, int i0, int i1);
+char	*ft_str_insert(char *str1, char *filler, int index);
 #endif

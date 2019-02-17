@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 19:20:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/17 19:18:09 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+char	**ft_get_env(t_list *list)
 {
+	char	**env_str;
+	t_env	*env;
+	char	*entry;
 	int		index;
-	char	*key;
-	char	*value;
-	int		i;
 
+	env = NULL;
+	env_str = (char **)malloc(sizeof(char *) * ft_lstcount(list) + 1);
 	index = 0;
-	while (env[index])
+	while (list)
 	{
-		i = 0;
-		while(env[index][i])
-		{
-			if (env[index][i] == ':' || env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break;
-			}
-			i++;
-		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));	
-		ft_setenv(key, value, params);
+		env = (t_env *)list->content;
+		entry = ft_strjoin(env->key, ":");
+		env_str[index] = ft_strjoin(entry, env->value);
+		free(entry);
+		list = list->next;
 		index++;
 	}
+	env_str[index] = NULL;
+	return (env_str);
 }

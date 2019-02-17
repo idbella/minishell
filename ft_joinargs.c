@@ -1,39 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_joinargs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 19:20:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/17 17:12:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+char	*ft_joinargs(char *str)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
+	int i;
+	int r;
+	int	qoute;
 
-	index = 0;
-	while (env[index])
+	qoute = 0;
+	i = 0;
+	r = 0;
+	while (str[i])
 	{
-		i = 0;
-		while(env[index][i])
+		if (!qoute && !ft_isspace(str[i]) && str[i + 1] == '\"')
 		{
-			if (env[index][i] == ':' || env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break;
-			}
+            r = i;
+            while (r >= 0)
+            {
+                if (str[r] == '\"' || ft_isspace(str[r]))
+                    break ;
+                r--;
+            }
+			str = ft_delchar(str, i + 1);
+			str = ft_insertchar(str, '\"', r + 1);
+            qoute = 1;
 			i++;
 		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));	
-		ft_setenv(key, value, params);
-		index++;
+		if (str[i] == '\"')
+			qoute = !qoute;
+		i++;
 	}
+    return (str);
 }

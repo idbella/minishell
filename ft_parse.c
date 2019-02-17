@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 06:25:48 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/17 22:40:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	ft_parse(char *command, t_params *params)
 {
 	char	*cmd;
-	char	*args;
 	char	*str;
 
-	str = ft_remove_wsapces(command);
+	str = ft_gethome(command, params);
+	str = ft_joinargs(str);
+	str = ft_remove_wsapces(str);
 	params->args = ft_strsplit(str, -1);
 	cmd = params->args[0];
-	
 	if (params->args && cmd)
 	{
 		if (ft_isbuilt_in(cmd))

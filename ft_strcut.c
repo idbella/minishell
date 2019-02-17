@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_strcut.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 19:20:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/17 22:41:26 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+char	*ft_strcut(char *str, int i0, int i1)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
+	char *result;
+	char *part1;
+	char *part2;
+	int len;
 
-	index = 0;
-	while (env[index])
-	{
-		i = 0;
-		while(env[index][i])
-		{
-			if (env[index][i] == ':' || env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break;
-			}
-			i++;
-		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));	
-		ft_setenv(key, value, params);
-		index++;
-	}
+	len = ft_strlen(str);
+	part1 = ft_strsub(str, 0, i0);
+	part2 = ft_strsub(str, i1, len - i1);
+	result = ft_strjoin(part1, part2);
+	free(part1);
+	free(part2);
+	return (result);
 }

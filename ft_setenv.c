@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_setenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 19:20:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/17 20:05:31 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+void	ft_setenv(char *key,char *value, t_params *params)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
+	t_env	*env;
+	t_list	*list;
+	t_list	*new;
 
-	index = 0;
-	while (env[index])
+	list = params->env;
+	if (!value)
+		value = ft_strnew(0);
+	while (list)
 	{
-		i = 0;
-		while(env[index][i])
+		env = (t_env *)list->content;
+		if (!ft_strcmp(env->key, key))
 		{
-			if (env[index][i] == ':' || env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break;
-			}
-			i++;
+			free(env->value);
+			
+			env->value = value;
+			return ;
 		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));	
-		ft_setenv(key, value, params);
-		index++;
+		list = list->next;
 	}
+	env = (t_env *)malloc(sizeof(t_env));
+	env->key = key;
+	env->value = value;
+	new = ft_lstnew(NULL, 0);
+	new->content = env;
+	ft_lstadd(&params->env, new);
 }

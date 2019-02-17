@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_isbuilt_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 19:20:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/17 19:21:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+int ft_isbuilt_in(char *name)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
-
-	index = 0;
-	while (env[index])
-	{
-		i = 0;
-		while(env[index][i])
-		{
-			if (env[index][i] == ':' || env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break;
-			}
-			i++;
-		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));	
-		ft_setenv(key, value, params);
-		index++;
-	}
+	if (!ft_strcmp(name, "cd"))
+		return (1);
+	if (!ft_strcmp(name, "echo"))
+		return (1);
+	if (!ft_strcmp(name, "exit"))
+		return (1);
+	if (!ft_strcmp(name, "env"))
+		return (1);
+	if (!ft_strcmp(name, "setenv"))
+		return (1);
+	if (!ft_strcmp(name, "unsetenv"))
+		return (1);
+	return (0);
 }
