@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_find_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/16 10:44:14 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/16 22:49:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,19 @@ char	*ft_find_file(char *file, t_list *list)
 			return (fullpath);
 		index++;
 	}
+	return (NULL);
+}
+
+t_stat	*ft_exist(char *file)
+{
+	t_stat	*fstat;
+	t_stat	*tmp;
+
+	if (!(fstat = (t_stat *)malloc(sizeof(t_stat))))
+		return (NULL);
+	tmp = fstat;
+	if (!stat(file, fstat))
+		return (fstat);
+	free(tmp);
 	return (NULL);
 }
