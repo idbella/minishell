@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 19:18:09 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:43:45 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**ft_get_env(t_list *list)
 	while (list)
 	{
 		env = (t_env *)list->content;
-		entry = ft_strjoin(env->key, ":");
+		entry = ft_strjoin(env->key, "=");
 		env_str[index] = ft_strjoin(entry, env->value);
 		free(entry);
 		list = list->next;

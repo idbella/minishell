@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 21:21:22 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/18 14:55:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void    ft_unsetenv(char *key, t_params *params)
 
 	head = params->env;
 	prev = NULL;
+	if (!key)
+	{
+		ft_putendl_fd("unsetenv: Too few arguments.", 2);
+		return ;
+	}
 	while (params->env)
 	{
 		env = (t_env *)params->env->content;

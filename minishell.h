@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 16:53:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 22:49:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:22:25 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <stdio.h>
 
 int	waiting;
+int exec;
 typedef char		t_bool;
 typedef struct stat	t_stat;
 typedef struct	s_env
@@ -58,4 +59,6 @@ char    *ft_gethome(char *str, t_params *params);
 char	*ft_strcut(char *str, int i0, int i1);
 char	*ft_str_insert(char *str1, char *filler, int index);
 char    *ft_getvars(char *str, t_params *params);
+void	ft_getcommands(char *str, t_params *params);
+t_stat	*ft_exist(char *file);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 19:20:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/18 12:25:05 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,5 @@ void	ft_parse_env(char **env, t_params *params)
 		ft_setenv(key, value, params);
 		index++;
 	}
+	params->env = ft_lstrev(params->env);
 }

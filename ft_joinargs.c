@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 17:12:49 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/18 14:35:55 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,35 @@ char	*ft_joinargs(char *str)
 	int i;
 	int r;
 	int	qoute;
+	int	dqoute;
+	char c;
 
 	qoute = 0;
+	dqoute = 0;
 	i = 0;
 	r = 0;
 	while (str[i])
 	{
-		if (!qoute && !ft_isspace(str[i]) && str[i + 1] == '\"')
+		if (!qoute && !dqoute && !ft_isspace(str[i]) && (str[i + 1] == '\"' || str[i + 1] == '\''))
 		{
             r = i;
             while (r >= 0)
             {
-                if (str[r] == '\"' || ft_isspace(str[r]))
+                if (str[r] == '\"' || str[r] == '\'' || ft_isspace(str[r]))
                     break ;
                 r--;
             }
+			c = str[i + 1];
 			str = ft_delchar(str, i + 1);
-			str = ft_insertchar(str, '\"', r + 1);
-            qoute = 1;
+			str = ft_insertchar(str, c, r + 1);
+            qoute = str[i + 1] == '\'' ? 1 : 0;
+			dqoute = str[i + 1] == '\"' ? 1 : 0;
 			i++;
 		}
-		if (str[i] == '\"')
+		if (str[i] == '\'')
 			qoute = !qoute;
+		else if (str[i] == '\"')
+			dqoute = !dqoute;
 		i++;
 	}
     return (str);

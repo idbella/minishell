@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 22:50:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/18 13:49:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_getvarname(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isspace(str[i]))
+		if (ft_isspace(str[i]) || str[i] == '\"')
 			break ;
 		i++;
 	}
@@ -31,11 +31,13 @@ char	*ft_getvars(char *str, t_params *params)
 	int		i;
 	char	*nv;
 	char 	*key;
+	int		qoute;
 
 	i = 0;
+	qoute = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (!qoute && str[i] == '$')
 		{
 			key = ft_getvarname(str + i + 1);
 			if (!(nv = ft_get_env_key(key, params->env)))
@@ -44,6 +46,8 @@ char	*ft_getvars(char *str, t_params *params)
 			str = ft_str_insert(str, nv, i);
 			i += ft_strlen(nv) - 1;
 		}
+		if (str[i] == '\'')
+			qoute = !qoute;
 		i++;
 	}
 	return (str);

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 22:40:46 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/18 14:35:44 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ char    *ft_remove_wsapces(char *str)
 {
 	char	*new;
 	char	*tmp;
-	t_bool	skip;
+	t_bool	qoute;
+	t_bool	dqoute;
     int     i;
 
-	skip = 0;
+	qoute = 0;
+	dqoute = 0;
 	new = ft_strtrim(str);
 	tmp = new;
 	new = ft_strctrim(new, '\t');
@@ -51,12 +53,17 @@ char    *ft_remove_wsapces(char *str)
 	i = 0;
     while (new[i])
 	{
-		if (!skip && ft_isspace(new[i]))
+		if (!dqoute && !qoute && ft_isspace(new[i]))
            new[i] = -1;
-		else if (new[i] == '\"')
+		else if (!qoute && new[i] == '\"')
 		{
 			new[i] = -1;
-			skip = !skip;
+			dqoute = !dqoute;
+		}
+		else if (!dqoute && new[i] == '\'')
+		{
+			new[i] = -1;
+			qoute = !qoute;
 		}
 		i++;
 	}
