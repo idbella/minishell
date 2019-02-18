@@ -14,5 +14,8 @@
 
 void ft_catch(int signal)
 {
-    signal = 0; // DUMMY
+	if (signal)  	// for kali's gcc
+    	signal = 0; // DUMMY
+    if (!waiting)
+    	ft_putstr("\n$> ");
 }

@@ -17,7 +17,8 @@ void	ft_parse(char *command, t_params *params)
 	char	*cmd;
 	char	*str;
 
-	str = ft_gethome(command, params);
+	str = ft_getvars(command, params);
+	str = ft_gethome(str, params);
 	str = ft_joinargs(str);
 	str = ft_remove_wsapces(str);
 	params->args = ft_strsplit(str, -1);

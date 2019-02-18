@@ -14,9 +14,7 @@
 
 char	**ft_getpaths(t_list *list)
 {
-	int		i;
 	char	*path;
-	i = 0;
 	path = ft_get_env_key("PATH", list);
 	return (ft_strsplit(path, ':'));
 }

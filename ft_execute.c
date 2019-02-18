@@ -30,7 +30,10 @@ void	ft_execute(char *cmd, t_params *params)
 				ft_putendl("Error");
 		}
 		else
+		{
+			waiting = 1;
 			wait4(pid, NULL, 0, NULL);
+		}
 	}
 	else
 	{

@@ -19,6 +19,7 @@
 #include <sys/wait.h>
 #include <stdio.h>
 
+int	waiting;
 typedef char		t_bool;
 typedef struct stat	t_stat;
 typedef struct	s_env
@@ -56,4 +57,5 @@ void    ft_unsetenv(char *key, t_params *params);
 char    *ft_gethome(char *str, t_params *params);
 char	*ft_strcut(char *str, int i0, int i1);
 char	*ft_str_insert(char *str1, char *filler, int index);
+char    *ft_getvars(char *str, t_params *params);
 #endif

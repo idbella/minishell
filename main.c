@@ -17,6 +17,7 @@ int		main(int argc, char **argv, char **env)
 	char		*command;
 	t_params	params;
 
+	waiting = 0;
 	params.env = NULL;
 	signal(SIGINT, ft_catch);
 	ft_parse_env(env, &params);
@@ -24,7 +25,10 @@ int		main(int argc, char **argv, char **env)
 	if (argc && argv)
 		while (1)
 		{
+			if (waiting)
+				ft_putchar('\n');
 			ft_putstr("$> ");
+			waiting = 0;
 			if (get_next_line(0, &command) != -1)
 				ft_parse(command, &params);
 		}
