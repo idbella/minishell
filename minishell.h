@@ -32,6 +32,7 @@ typedef struct		s_params
 {
 	t_list			*env;
 	char			**args;
+	struct termios	mode;
 }					t_params;
 void				ft_parse_env(char **env, t_params *params);
 void				ft_setenv(char *key, char *value, t_params *params);

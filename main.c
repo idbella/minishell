@@ -20,6 +20,7 @@ int		main(int argc, char **argv, char **env)
 
 	g_waiting = 0;
 	params.env = NULL;
+	tcgetattr(0, &params.mode);
 	signal(SIGINT, ft_catch);
 	ft_parse_env(env, &params);
 	shell = ft_get_env_key("_", params.env);

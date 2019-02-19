@@ -20,3 +20,8 @@ void	ft_setup_terminal(void)
 	mode.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(0, TCSANOW, &mode);
 }
+
+void	ft_reset_terminal(struct termios mode)
+{
+	tcsetattr(0, TCSANOW, &mode);
+}
