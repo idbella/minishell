@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/18 10:32:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:43:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,24 @@ void	ft_execute(char *cmd, t_params *params)
 
 	if ((file = ft_find_file(cmd, params->env)))
 	{
+		if (access(file, X_OK))
+		{
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd("Permission denied", 2);
+			return ;
+		}
 		pid = fork();
 		if (!pid)
 		{
 			env = ft_get_env(params->env);
 			r_val = execve(file, params->args, env);
 			if (r_val == -1)
-				ft_putendl("Error");
+				printf("error %s\n", ft_strerror(errno));
 		}
 		else
 		{
-			waiting = 1;
+			g_waiting = 1;
 			wait4(pid, NULL, 0, NULL);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/18 14:35:44 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:21:30 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,19 @@ void	ft_parse(char *command, t_params *params)
 	if (params->args && cmd)
 	{
 		if (ft_isbuilt_in(cmd))
-		{
 			ft_built_in(cmd, params);
-		}
 		else
-		{
 			ft_execute(cmd, params);
-		}
 	}
 }
 
-char    *ft_remove_wsapces(char *str)
+char	*ft_remove_wsapces(char *str)
 {
 	char	*new;
 	char	*tmp;
 	t_bool	qoute;
 	t_bool	dqoute;
-    int     i;
+	int		i;
 
 	qoute = 0;
 	dqoute = 0;
@@ -51,10 +47,10 @@ char    *ft_remove_wsapces(char *str)
 	new = ft_strctrim(new, '\t');
 	free(tmp);
 	i = 0;
-    while (new[i])
+	while (new[i])
 	{
 		if (!dqoute && !qoute && ft_isspace(new[i]))
-           new[i] = -1;
+			new[i] = -1;
 		else if (!qoute && new[i] == '\"')
 		{
 			new[i] = -1;
@@ -67,5 +63,5 @@ char    *ft_remove_wsapces(char *str)
 		}
 		i++;
 	}
-    return (new);
+	return (new);
 }

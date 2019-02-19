@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcut.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 22:41:26 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:25:41 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	*ft_strcut(char *str, int i0, int i1)
 {
-	char *result;
-	char *part1;
-	char *part2;
-	int len;
+	char	*result;
+	char	*part1;
+	char	*part2;
+	int		len;
 
 	len = ft_strlen(str);
 	part1 = ft_strsub(str, 0, i0);

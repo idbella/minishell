@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/18 14:49:30 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:03:11 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_isvalid(char *key, char **val, t_list *list)
+int		ft_isvalid(char *key, char **val, t_list *list)
 {
 	int i;
 
@@ -25,9 +25,9 @@ int ft_isvalid(char *key, char **val, t_list *list)
 	{
 		if ((!ft_isalnum(key[i]) && key[i] != '_') || ft_isdigit(key[0]))
 		{
-			ft_putstr_fd("err - >",2);
+			ft_putstr_fd("err - >", 2);
 			ft_putchar_fd(key[i], 2);
-			ft_putchar_fd('\n',2);
+			ft_putchar_fd('\n', 2);
 			return (0);
 		}
 		i++;
@@ -35,7 +35,7 @@ int ft_isvalid(char *key, char **val, t_list *list)
 	return (1);
 }
 
-void	ft_setenv(char *key,char *value, t_params *params)
+void	ft_setenv(char *key, char *value, t_params *params)
 {
 	t_env	*env;
 	t_list	*list;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/18 14:38:44 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:43:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ int		main(int argc, char **argv, char **env)
 	t_params	params;
 	char		*shell;
 
-	waiting = 0;
+	g_waiting = 0;
 	params.env = NULL;
 	signal(SIGINT, ft_catch);
 	ft_parse_env(env, &params);
-	shell = ft_strjoin(ft_pwd(), argv[0]);
+	shell = ft_get_env_key("_", params.env);
 	ft_setenv("SHELL", shell, &params);
 	if (argc && argv)
 		while (1)
 		{
 			ft_putstr("$> ");
-			waiting = 0;
-			if (get_next_line(0, &command) != -1)
+			g_waiting = 0;
+			if ((command = ft_getline(&params)))
 				ft_getcommands(command, &params);
 		}
 	return (0);

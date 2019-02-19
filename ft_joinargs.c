@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_joinargs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/18 14:35:55 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:23:27 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*ft_joinargs(char *str)
 {
-	int i;
-	int r;
-	int	qoute;
-	int	dqoute;
-	char c;
+	int		i;
+	int		r;
+	int		qoute;
+	int		dqoute;
+	char	c;
 
 	qoute = 0;
 	dqoute = 0;
@@ -26,20 +26,21 @@ char	*ft_joinargs(char *str)
 	r = 0;
 	while (str[i])
 	{
-		if (!qoute && !dqoute && !ft_isspace(str[i]) && (str[i + 1] == '\"' || str[i + 1] == '\''))
+		if (!qoute && !dqoute && !ft_isspace(str[i]) &&
+			(str[i + 1] == '\"' || str[i + 1] == '\''))
 		{
-            r = i;
-            while (r >= 0)
-            {
-                if (str[r] == '\"' || str[r] == '\'' || ft_isspace(str[r]))
-                    break ;
-                r--;
-            }
+			r = i;
+			while (r >= 0)
+			{
+				if (str[r] == '\"' || str[r] == '\'' || ft_isspace(str[r]))
+					break ;
+				r--;
+			}
 			c = str[i + 1];
 			str = ft_delchar(str, i + 1);
 			str = ft_insertchar(str, c, r + 1);
-            qoute = str[i + 1] == '\'' ? 1 : 0;
-			dqoute = str[i + 1] == '\"' ? 1 : 0;
+			qoute = c == '\'' ? 1 : 0;
+			dqoute = c == '\"' ? 1 : 0;
 			i++;
 		}
 		if (str[i] == '\'')
@@ -48,5 +49,5 @@ char	*ft_joinargs(char *str)
 			dqoute = !dqoute;
 		i++;
 	}
-    return (str);
+	return (str);
 }

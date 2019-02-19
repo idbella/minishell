@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/18 11:28:40 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:42:34 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ void	ft_cd(char *location, t_params *params)
 	{
 		if (S_ISDIR(stat->st_mode))
 		{
+			if (access(dir, X_OK))
+			{
+				ft_putendl_fd("Permission denied", 2);
+				return ;
+			}
 			if (chdir(dir))
 			{
 				ft_putendl(dir);

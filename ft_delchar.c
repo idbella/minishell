@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_delchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 16:56:10 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:26:54 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_delchar(char *str, int index)
 {
 	char	*part1;
-	char 	*part2;
+	char	*part2;
 	char	*result;
 	int		len;
 

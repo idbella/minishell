@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getcmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/18 13:41:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:06:12 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		ft_isvalid(char *str)
+static int	ft_isvalid(char *str)
 {
 	int	index;
 	int qoutes;
@@ -23,7 +23,7 @@ static int		ft_isvalid(char *str)
 	dqouts = 0;
 	while (str[index])
 	{
-		if (!(qoutes % 2) &&  str[index] == '\"')
+		if (!(qoutes % 2) && str[index] == '\"')
 			dqouts++;
 		else if (!(dqouts % 2) && str[index] == '\'')
 			qoutes++;
@@ -38,12 +38,14 @@ static int		ft_isvalid(char *str)
 	}
 	return (1);
 }
-void	ft_getcommands(char *str, t_params *params)
+
+void		ft_getcommands(char *str, t_params *params)
 {
-	int i;
-	int start;
-	int qoute;
-	int dqoute;
+	int		i;
+	int		start;
+	int		qoute;
+	int		dqoute;
+	char	*s;
 
 	i = 0;
 	qoute = 0;
@@ -55,7 +57,7 @@ void	ft_getcommands(char *str, t_params *params)
 	{
 		if (!qoute && !dqoute && str[i] == ';')
 		{
-			char *s = ft_strsub(str, start, i - start);
+			s = ft_strsub(str, start, i - start);
 			ft_parse(s, params);
 			start = i + 1;
 		}
@@ -63,11 +65,11 @@ void	ft_getcommands(char *str, t_params *params)
 			qoute = !qoute;
 		else if (!qoute && str[i] == '\"')
 			dqoute = !dqoute;
-        if (!str[i + 1] && str[i] != ';')
-        {
-            char *s = ft_strsub(str, start, i - start + 1);
+		if (!str[i + 1] && str[i] != ';')
+		{
+			s = ft_strsub(str, start, i - start + 1);
 			ft_parse(s, params);
-        }
+		}
 		i++;
 	}
 }

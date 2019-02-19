@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_insert_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 22:49:27 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:28:38 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	*ft_str_insert(char *str1, char *filler, int index)
 {
-	char *result;
-	char *part1;
-	char *part2;
-	int len;
+	char	*result;
+	char	*part1;
+	char	*part2;
+	int		len;
 
 	len = ft_strlen(str1);
 	part1 = ft_strsub(str1, 0, index);

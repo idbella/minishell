@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getvar.c                                        :+:      :+:    :+:   */
+/*   ft_gethome.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/17 22:50:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/19 05:25:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_user_home(char *str)
 	return (path);
 }
 
-char    *ft_gethome(char *str, t_params *params)
+char	*ft_gethome(char *str, t_params *params)
 {
 	int		i;
 	int		qoute;
@@ -48,7 +48,8 @@ char    *ft_gethome(char *str, t_params *params)
 	i = 0;
 	while (str[i])
 	{
-		if (!qoute && str[i] == '~' && ((i > 0 && ft_isspace(str[i - 1])) || i == 0))
+		if (!qoute && str[i] == '~' &&
+			((i > 0 && ft_isspace(str[i - 1])) || i == 0))
 		{
 			if (str[i + 1] && !ft_isspace(str[i + 1]) && str[i + 1] != '/')
 			{
