@@ -1,42 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_isexec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/20 05:49:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/22 06:00:09 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+int		ft_is_exec(char *file, char *path)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
+	t_stat		stat;
+	int			val;
 
-	index = 0;
-	while (env[index])
+	val = 0;
+	path = ft_strjoin(path, "/");
+	file = ft_strjoin(path, file);
+	if (!lstat(file, &stat))
 	{
-		i = 0;
-		while (env[index][i])
-		{
-			if (env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break ;
-			}
-			i++;
-		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));
-		ft_setenv(key, value, params);
-		free(key);
-		free(value);
-		index++;
+		if (S_ISREG(stat.st_mode) && !access(file, X_OK))
+			val = 1;
 	}
-	params->env = ft_lstrev(params->env);
+	free(path);
+	free(file);
+	return (val);
 }

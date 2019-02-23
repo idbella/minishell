@@ -1,42 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_backspace.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/20 05:49:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 05:29:36 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+char		*ft_backspace(char *str, t_params *params)
 {
+	int		len;
 	int		index;
-	char	*key;
-	char	*value;
-	int		i;
 
-	index = 0;
-	while (env[index])
+	len = ft_strlen(str);
+	if (len)
 	{
-		i = 0;
-		while (env[index][i])
+		index = len - params->pos - 1;
+		if (index >= 0)
 		{
-			if (env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break ;
-			}
-			i++;
+			str = ft_delchar(&str, index);
+			ft_put_to_stdin(str, params, 0);
 		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));
-		ft_setenv(key, value, params);
-		free(key);
-		free(value);
-		index++;
 	}
-	params->env = ft_lstrev(params->env);
+	return (str);
 }

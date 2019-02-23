@@ -6,99 +6,88 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/19 05:09:50 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 03:51:24 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_getprefix(char *str)
+char		*ft_preview_color(char *str)
 {
-	char	**parts;
-	char	*result;
-	int		i;
+	char *resutl;
 
-	i = 0;
-	parts = ft_strsplit(str, ' ');
-	while (parts[i])
-		i++;
-	if (i == 0)
-		return (NULL);
-	result = ft_strdup(parts[i - 1]);
-	i = 0;
-	while (parts[i])
-		free(parts[i++]);
-	free(parts);
-	return (result);
+	str = ft_strjoin("\x1B[90m", str);
+	resutl = ft_strjoin(str, "\x1b[0m");
+	free(str);
+	return (resutl);
 }
 
-char	*ft_find_in_dir(char *path, char *part0)
+char		*ft_getval(char *prefix, t_params *params)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-
-	if ((dir = opendir(path)))
-	{
-		while ((entry = readdir(dir)))
-		{
-			if (!ft_strncmp(part0, entry->d_name, ft_strlen(part0)))
-				return (ft_strdup(entry->d_name));
-		}
-	}
-	return (NULL);
-}
-
-char	*ft_find_in_path(char *part0, t_params *params)
-{
-	char			**paths;
-	int				i;
-
-	paths = ft_getpaths(params->env);
-	i = 0;
-	while (paths[i])
-	{
-		return (ft_find_in_dir(paths[i], part0));
-		i++;
-	}
-	return (NULL);
-}
-
-char	*ft_find_in_builtins(char *tool)
-{
-	int 	len;
-	char	**builtin;
-	int 	count;
-
-	count = 6;
-	builtin = (char **)malloc(sizeof(char *) * 6);
-	builtin[0] = ft_strdup("echo");
-	builtin[1] = ft_strdup("env");
-	builtin[2] = ft_strdup("setenv");
-	builtin[3] = ft_strdup("unsetenv");
-	builtin[4] = ft_strdup("cd");
-	builtin[5] = ft_strdup("exit");
-
-	len = ft_strlen(tool);
-	while(count--)
-		if (!ft_strncmp(builtin[count], tool, len))
-			return (builtin[count]);
-	return (NULL);
-}
-
-char	*ft_autocomplete(char *str, t_params *params)
-{
-	char *prefix;
 	char *val;
+	char *pwd;
+
+	pwd = ft_pwd();
+	val = NULL;
+	val = ft_complete_dir(prefix, params);
+	if (!val)
+		val = ft_find_in_builtins(prefix);
+	if (!val)
+		val = ft_find_in_path(prefix, params);
+	if (!val)
+		val = ft_find_in_dir(pwd, prefix);
+	free(pwd);
+	if (val && !ft_strcmp(prefix, val))
+	{
+		free(val);
+		return (NULL);
+	}
+	return (val);
+}
+
+static void	ft_helper(char **str, char *prefix, t_params *params,
+						t_bool preview_mode)
+{
+	char	*val;
+	char	*tmp;
+
+	if ((val = ft_getval(prefix, params)))
+	{
+		if ((tmp = val) && preview_mode)
+		{
+			val = ft_preview_color(val + ft_strlen(prefix));
+			free(tmp);
+			tmp = *str;
+			*str = ft_strjoin(*str, val);
+		}
+		else
+		{
+			tmp = *str;
+			*str = ft_strjoin(*str, val + ft_strlen(prefix));
+			free(tmp);
+			tmp = *str;
+			*str = ft_strjoin(*str, " ");
+		}
+		if (val + ft_strlen(prefix))
+			ft_put_to_stdin(*str, params, preview_mode);
+		free(val);
+		free(tmp);
+	}
+}
+
+char		*ft_autocomplete(char *str, t_params *params, t_bool preview_mode)
+{
+	char	*prefix;
 
 	if ((prefix = ft_getprefix(str)))
 	{
-		if ((val = ft_find_in_builtins(prefix))
-			|| (val = ft_find_in_path(prefix, params))
-			|| (val = ft_find_in_dir(".", prefix)))
-		{
-			str = ft_strjoin(str, val + ft_strlen(str));
-			ft_putstr2(str);
-		}
+		ft_helper(&str, prefix, params, preview_mode);
+		free(prefix);
+	}
+	if (preview_mode)
+	{
+		free(str);
+		return (NULL);
 	}
 	return (str);
 }

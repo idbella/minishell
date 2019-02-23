@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_atexit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/20 05:49:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/22 11:59:07 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+void	ft_free_env(t_list *list)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
+	t_env *env;
 
-	index = 0;
-	while (env[index])
+	while (list)
 	{
-		i = 0;
-		while (env[index][i])
-		{
-			if (env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break ;
-			}
-			i++;
-		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));
-		ft_setenv(key, value, params);
-		free(key);
-		free(value);
-		index++;
+		env = (t_env *)list->content;
+		free(env->key);
+		free(env->value);
+		list = list->next;
 	}
-	params->env = ft_lstrev(params->env);
+}
+
+void	ft_free_list(t_list *list)
+{
+	if (list->next)
+		ft_free_list(list->next);
+	free(list->content);
+	free(list);
+}
+
+void	ft_atexit(t_params *params)
+{
+	tcsetattr(0, TCSANOW, &params->mode);
+	ft_free_list(params->history);
+	ft_free_env(params->env);
+	ft_free_list(params->env);
 }

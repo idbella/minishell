@@ -1,42 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_remove_wspaces.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/20 05:49:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/22 23:34:26 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+static void	ft_helper(char *c, t_bool *qoute, t_bool *dqoute)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
-
-	index = 0;
-	while (env[index])
+	if (!*dqoute && !*qoute && ft_isspace(*c))
+		*c = -1;
+	else if (!*qoute && *c == '\"')
 	{
-		i = 0;
-		while (env[index][i])
-		{
-			if (env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break ;
-			}
-			i++;
-		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));
-		ft_setenv(key, value, params);
-		free(key);
-		free(value);
-		index++;
+		*c = -1;
+		*dqoute = !*dqoute;
 	}
-	params->env = ft_lstrev(params->env);
+	else if (!*dqoute && *c == '\'')
+	{
+		*c = -1;
+		*qoute = !*qoute;
+	}
+}
+
+char		*ft_remove_wsapces(char *str)
+{
+	t_bool	qoute;
+	t_bool	dqoute;
+	int		i;
+	char	*result;
+
+	result = ft_strdup(str);
+	qoute = 0;
+	dqoute = 0;
+	str = result;
+	result = ft_strtrim(result);
+	free(str);
+	i = 0;
+	while (result[i])
+	{
+		ft_helper(&result[i], &qoute, &dqoute);
+		i++;
+	}
+	return (result);
 }

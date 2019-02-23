@@ -6,62 +6,58 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/19 05:21:30 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 06:38:34 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse(char *command, t_params *params)
+static void	ft_free_args(t_params *params)
+{
+	char **arg;
+
+	arg = params->args;
+	while (*arg)
+	{
+		free(*arg);
+		arg++;
+	}
+	free(params->args);
+}
+
+static void	ft_helper(char *command, t_params *params)
 {
 	char	*cmd;
-	char	*str;
 
-	str = ft_getvars(command, params);
-	str = ft_gethome(str, params);
-	str = ft_joinargs(str);
-	str = ft_remove_wsapces(str);
-	params->args = ft_strsplit(str, -1);
 	cmd = params->args[0];
 	if (params->args && cmd)
 	{
 		if (ft_isbuilt_in(cmd))
-			ft_built_in(cmd, params);
+			ft_built_in(cmd, params, &command);
 		else
 			ft_execute(cmd, params);
 	}
 }
 
-char	*ft_remove_wsapces(char *str)
+void		ft_parse(char *command, t_params *params)
 {
-	char	*new;
+	char	*str;
 	char	*tmp;
-	t_bool	qoute;
-	t_bool	dqoute;
-	int		i;
 
-	qoute = 0;
-	dqoute = 0;
-	new = ft_strtrim(str);
-	tmp = new;
-	new = ft_strctrim(new, '\t');
+	str = ft_getvars(command, params);
+	tmp = str;
+	str = ft_gethome(str, params);
 	free(tmp);
-	i = 0;
-	while (new[i])
-	{
-		if (!dqoute && !qoute && ft_isspace(new[i]))
-			new[i] = -1;
-		else if (!qoute && new[i] == '\"')
-		{
-			new[i] = -1;
-			dqoute = !dqoute;
-		}
-		else if (!dqoute && new[i] == '\'')
-		{
-			new[i] = -1;
-			qoute = !qoute;
-		}
-		i++;
-	}
-	return (new);
+	str = ft_joinargs(&str, NULL);
+	str = ft_strrev(str);
+	str = ft_joinargs(&str, NULL);
+	str = ft_strrev(str);
+	tmp = str;
+	str = ft_remove_wsapces(str);
+	free(tmp);
+	tmp = str;
+	params->args = ft_strsplit(str, -1);
+	free(str);
+	ft_helper(command, params);
+	ft_free_args(params);
 }

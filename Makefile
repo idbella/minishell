@@ -4,7 +4,7 @@ all:$(NAME)
 $(NAME):
 	make -C libft
 	gcc $(FLAGS) -c *.c
-	gcc $(FLAGS) *.o libft/libft.a -o $(NAME)
+	gcc $(FLAGS) *.c libft/libft.a -o $(NAME)
 clean:
 	make -C libft/ clean
 	rm -rf *.o

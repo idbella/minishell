@@ -1,42 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_put_to_stdin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/20 05:49:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 06:59:34 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+void		ft_put_to_stdin(char *str, t_params *params, t_bool preview_mode)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
+	int	i;
 
-	index = 0;
-	while (env[index])
-	{
-		i = 0;
-		while (env[index][i])
-		{
-			if (env[index][i] == '=')
-			{
-				key = ft_strsub(env[index], 0, i++);
-				break ;
-			}
-			i++;
-		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));
-		ft_setenv(key, value, params);
-		free(key);
-		free(value);
-		index++;
-	}
-	params->env = ft_lstrev(params->env);
+	ft_putstr_fd("\33[2K\r", 0);
+	if (preview_mode)
+		ft_putstr_fd("\e[?25l", 0);
+	else
+		ft_putstr_fd("\e[?25h", 0);
+	ft_putstr_fd("$> ", 0);
+	ft_putstr_fd(str, 0);
+	i = params->pos;
+	while (i-- > 0)
+		ft_putstr_fd("\033[D", 0);
 }

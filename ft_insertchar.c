@@ -6,17 +6,19 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/19 05:27:05 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 05:54:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_insertchar(char *str, char c, int index)
+char	*ft_insertchar(char **src, char c, int index)
 {
 	int		i;
 	char	*new;
+	char	*str;
 
+	str = *src;
 	i = 0;
 	new = ft_strnew(ft_strlen(str) + 1);
 	while (str[i])
@@ -33,5 +35,6 @@ char	*ft_insertchar(char *str, char c, int index)
 			new[i + 1] = str[i];
 		i++;
 	}
+	free(*src);
 	return (new);
 }

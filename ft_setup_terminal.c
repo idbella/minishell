@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setup_terminal.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/18 20:21:18 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 04:25:45 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_setup_terminal(void)
 
 	tcgetattr(0, &mode);
 	mode.c_lflag &= ~(ICANON | ECHO);
+	mode.c_cc[VTIME] = 5;
 	tcsetattr(0, TCSANOW, &mode);
 }
 

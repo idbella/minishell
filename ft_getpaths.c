@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/19 05:02:23 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/22 09:53:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,13 @@
 char	**ft_getpaths(t_list *list)
 {
 	char	*path;
+	char	**result;
 
 	if ((path = ft_get_env_key("PATH", list)))
-		return (ft_strsplit(path, ':'));
+	{
+		result = ft_strsplit(path, ':');
+		free(path);
+		return (result);
+	}
 	return (NULL);
 }

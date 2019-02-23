@@ -1,42 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_find_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/20 05:49:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/22 10:59:28 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+void	ft_free(char ***str)
 {
-	int		index;
-	char	*key;
-	char	*value;
+	char	**ptr;
 	int		i;
 
-	index = 0;
-	while (env[index])
+	i = 0;
+	ptr = *str;
+	while (ptr[i])
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
+}
+
+char	*ft_find_in_path(char *part0, t_params *params)
+{
+	char			**paths;
+	int				i;
+	char			*file;
+
+	if ((paths = ft_getpaths(params->env)))
 	{
 		i = 0;
-		while (env[index][i])
+		while (paths[i])
 		{
-			if (env[index][i] == '=')
+			file = ft_find_in_dir(paths[i], part0);
+			if (ft_is_exec(file, paths[i]))
 			{
-				key = ft_strsub(env[index], 0, i++);
-				break ;
+				ft_free(&paths);
+				return (file);
 			}
+			free(file);
 			i++;
 		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));
-		ft_setenv(key, value, params);
-		free(key);
-		free(value);
-		index++;
+		ft_free(&paths);
 	}
-	params->env = ft_lstrev(params->env);
+	return (NULL);
 }

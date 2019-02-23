@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/19 05:06:12 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 06:18:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,45 @@ static int	ft_isvalid(char *str)
 	return (1);
 }
 
+void		ft_qoutes(char c, t_bool *qoute)
+{
+	if (!qoute[1] && c == '\'')
+		qoute[0] = !qoute[0];
+	else if (!qoute[0] && c == '\"')
+		qoute[1] = !qoute[1];
+}
+
+static void	ft_helper(t_params *params, char *str, int start, int len)
+{
+	char	*s;
+
+	s = ft_strsub(str, start, len);
+	ft_parse(s, params);
+	free(s);
+}
+
 void		ft_getcommands(char *str, t_params *params)
 {
 	int		i;
 	int		start;
-	int		qoute;
-	int		dqoute;
-	char	*s;
+	t_bool	qoute[2];
 
-	i = 0;
-	qoute = 0;
-	dqoute = 0;
+	i = -1;
+	qoute[0] = 0;
+	qoute[1] = 0;
 	start = 0;
+	ft_addhistory(str, &params->history);
 	if (!ft_isvalid(str))
 		return ;
-	while (str[i])
+	while (str[++i])
 	{
-		if (!qoute && !dqoute && str[i] == ';')
+		if (!qoute[0] && !qoute[1] && str[i] == ';')
 		{
-			s = ft_strsub(str, start, i - start);
-			ft_parse(s, params);
+			ft_helper(params, str, start, i - start);
 			start = i + 1;
 		}
-		else if (!dqoute && str[i] == '\'')
-			qoute = !qoute;
-		else if (!qoute && str[i] == '\"')
-			dqoute = !dqoute;
+		ft_qoutes(str[i], &qoute[0]);
 		if (!str[i + 1] && str[i] != ';')
-		{
-			s = ft_strsub(str, start, i - start + 1);
-			ft_parse(s, params);
-		}
-		i++;
+			ft_helper(params, str, start, i - start + 1);
 	}
 }

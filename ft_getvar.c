@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/19 05:29:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/22 08:40:13 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_getvarname(char *str)
+char		*ft_getvarname(char *str)
 {
 	int		i;
 
@@ -26,29 +26,41 @@ char	*ft_getvarname(char *str)
 	return (ft_strsub(str, 0, i));
 }
 
-char	*ft_getvars(char *str, t_params *params)
+static int	ft_helper(char **result, t_params *params, char *key, int i)
+{
+	char *nv;
+
+	if (!(nv = ft_get_env_key(key, params->env)))
+		nv = ft_strnew(0);
+	*result = ft_strcut(result, i + 1, i + ft_strlen(key) + 1);
+	*result = ft_str_insert(result, nv, i);
+	i += ft_strlen(nv) - 1;
+	free(nv);
+	return (i);
+}
+
+char		*ft_getvars(char *str, t_params *params)
 {
 	int		i;
-	char	*nv;
 	char	*key;
 	int		qoute;
+	char	*result;
 
-	i = 0;
+	i = -1;
 	qoute = 0;
-	while (str[i])
+	result = ft_strdup(str);
+	while (result[++i])
 	{
-		if (!qoute && str[i] == '$')
+		if (!qoute && result[i] == '$')
 		{
-			key = ft_getvarname(str + i + 1);
-			if (!(nv = ft_get_env_key(key, params->env)))
-				nv = ft_strnew(0);
-			str = ft_strcut(str, i + 1, i + ft_strlen(key) + 1);
-			str = ft_str_insert(str, nv, i);
-			i += ft_strlen(nv) - 1;
+			if ((key = ft_getvarname(result + i + 1)))
+			{
+				i = ft_helper(&result, params, key, i);
+				free(key);
+			}
 		}
-		if (str[i] == '\'')
+		if (result[i] == '\'')
 			qoute = !qoute;
-		i++;
 	}
-	return (str);
+	return (result);
 }

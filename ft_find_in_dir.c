@@ -1,42 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*   ft_find_in_dir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/20 05:49:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/22 09:49:55 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_env(char **env, t_params *params)
+char	*ft_find_in_dir(char *path, char *part0)
 {
-	int		index;
-	char	*key;
-	char	*value;
-	int		i;
+	DIR				*dir;
+	struct dirent	*entry;
 
-	index = 0;
-	while (env[index])
+	if ((dir = opendir(path)))
 	{
-		i = 0;
-		while (env[index][i])
+		while ((entry = readdir(dir)))
 		{
-			if (env[index][i] == '=')
+			if (entry->d_name[0] == '.')
+				continue ;
+			if (!ft_strncmp(part0, entry->d_name, ft_strlen(part0)))
 			{
-				key = ft_strsub(env[index], 0, i++);
-				break ;
+				closedir(dir);
+				return (ft_strdup(entry->d_name));
 			}
-			i++;
 		}
-		value = ft_strsub(env[index], i, ft_strlen(env[index]));
-		ft_setenv(key, value, params);
-		free(key);
-		free(value);
-		index++;
+		closedir(dir);
 	}
-	params->env = ft_lstrev(params->env);
+	return (NULL);
 }
