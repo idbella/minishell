@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/22 11:59:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 21:51:41 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_free_list(t_list *list)
 
 void	ft_atexit(t_params *params)
 {
+	free(params->pwd);
 	tcsetattr(0, TCSANOW, &params->mode);
 	ft_free_list(params->history);
 	ft_free_env(params->env);

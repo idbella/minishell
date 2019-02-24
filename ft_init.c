@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_history.c                                       :+:      :+:    :+:   */
+/*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/24 00:28:36 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 02:08:10 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_history(t_list *list)
+void	ft_init(t_params *params, char **env)
 {
-	if (list->next)
-		ft_history(list->next);
-	ft_putchar('\t');
-	ft_putendl((char *)list->content);
-}
+	char		*shell;
+	char		*pwd;
 
-void	ft_addhistory(char *str, t_list **history)
-{
-	t_list *new;
-
-	new = ft_lstnew(NULL, 0);
-	new->content = ft_strdup(str);
-	ft_lstadd(history, new);
+	g_waiting = 0;
+	params->preview_mode = 0;
+	g_line = ft_strnew(0);
+	params->env = NULL;
+	params->history = NULL;
+	tcgetattr(0, &params->mode);
+	ft_setup_terminal();
+	signal(SIGINT, ft_catch);
+	ft_parse_env(env, params);
+	if ((shell = ft_get_env_key("_", params->env)))
+		ft_setenv("SHELL", shell, params);
+	if ((pwd = ft_get_env_key("PWD", params->env)))
+		params->pwd = ft_strdup(pwd);
+	else
+	{
+		pwd = ft_pwd();
+		params->pwd = ft_strdup(pwd);
+	}
+	free(shell);
+	free(pwd);
 }

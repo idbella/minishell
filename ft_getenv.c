@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/22 10:12:19 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 00:41:16 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	**ft_get_env(t_list *list)
 	int		index;
 
 	env = NULL;
-	env_str = (char **)malloc(sizeof(char *) * ft_lstcount(list) + 1);
+	if (!(env_str = (char **)malloc(sizeof(char *) * ft_lstcount(list) + 1)))
+		return (NULL);
 	index = 0;
 	while (list)
 	{

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 16:53:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/23 06:05:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 01:45:36 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <sys/wait.h>
 # include <stdio.h>
 # include <termios.h>
+# define HIDE_CURSOR "\e[?25l"
+# define SHOW_CURSOR "\e[?25h"
+# define CLEAR_LINE "\33[2K\r"
+# define MV_CURSOR "\033[D"
 
 int					g_waiting;
 char				*g_line;
@@ -38,6 +42,7 @@ typedef struct		s_params
 	int				pos;
 	int				history_pos;
 	t_bool			preview_mode;
+	char			*pwd;
 }					t_params;
 void				ft_parse_env(char **env, t_params *params);
 void				ft_setenv(char *key, char *value, t_params *params);
@@ -72,7 +77,7 @@ char				*ft_autocomplete(char *str, t_params *params,
 									t_bool preview_mode);
 void				ft_putstr2(char *str, t_params *params,
 									t_bool preview_mode);
-void				ft_history(t_list *histoy);
+void				ft_history(t_list *history);
 void				ft_addhistory(char *str, t_list **history);
 void				ft_atexit(t_params *params);
 void				ft_browshistory(char **str, char direction,
@@ -89,4 +94,7 @@ void				ft_put_to_stdin(char *str, t_params *params,
 									t_bool preview_mode);
 char				*ft_backspace(char *str, t_params *params);
 char				*ft_remove_wsapces(char *str);
+void				ft_reset_terminal(struct termios mode);
+char				*ft_get_parent_dir(char *dir);
+void				ft_init(t_params *params, char **env);
 #endif

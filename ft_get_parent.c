@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_history.c                                       :+:      :+:    :+:   */
+/*   ft_get_parent.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/24 00:28:36 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 22:52:44 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_history(t_list *list)
+char	*ft_get_parent_dir(char *dir)
 {
-	if (list->next)
-		ft_history(list->next);
-	ft_putchar('\t');
-	ft_putendl((char *)list->content);
-}
+	char	*pwd;
+	char	*cdir;
+	int		len;
+	char	*parent;
 
-void	ft_addhistory(char *str, t_list **history)
-{
-	t_list *new;
-
-	new = ft_lstnew(NULL, 0);
-	new->content = ft_strdup(str);
-	ft_lstadd(history, new);
+	pwd = ft_pwd();
+	if (!ft_strcmp(pwd, "/"))
+		return (pwd);
+	len = ft_strlen(dir);
+	if (dir[len - 1] == '/')
+		dir[len - 1] = '\0';
+	cdir = ft_strrchr(dir, '/');
+	len = len - ft_strlen(cdir);
+	if (len > 0)
+		parent = ft_strsub(dir, 0, len);
+	else
+		parent = ft_strdup("/");
+	free(pwd);
+	return (parent);
 }

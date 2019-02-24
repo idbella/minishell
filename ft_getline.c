@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/23 05:07:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 01:11:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,21 @@ static void	ft_helper(char *c, char **str, t_params *params)
 		*str = ft_autocomplete(*str, params, 0);
 	else
 	{
-		tmp = *str;
-		*str = ft_strjoin(*str, c);
-		ft_put_to_stdin(*str, params, 0);
-		free(tmp);
+		len = ft_strlen(*str) - params->pos;
+		if (len >= 0)
+		{
+			tmp = *str;
+			*str = ft_strinsert(*str, c, len);
+			ft_put_to_stdin(*str, params, 0);
+			free(tmp);
+		}
 	}
 }
 
 char		*ft_handle_input(char *str, char *c, t_params *params)
 {
 	char	*tmp;
+	int		len;
 
 	if (!*str)
 		params->pos = 0;
@@ -64,10 +69,14 @@ char		*ft_handle_input(char *str, char *c, t_params *params)
 	}
 	else if (ft_isprint(*c))
 	{
-		tmp = str;
-		str = ft_strinsert(str, c, ft_strlen(str) - params->pos);
-		ft_put_to_stdin(str, params, 0);
-		free(tmp);
+		len = ft_strlen(str) - params->pos;
+		if (len >= 0)
+		{
+			tmp = str;
+			str = ft_strinsert(str, c, ft_strlen(str) - params->pos);
+			ft_put_to_stdin(str, params, 0);
+			free(tmp);
+		}
 	}
 	return (str);
 }
@@ -75,7 +84,6 @@ char		*ft_handle_input(char *str, char *c, t_params *params)
 void		ft_setup(char *last, char **c, t_params *params)
 {
 	ft_bzero(last, 3);
-	ft_setup_terminal();
 	if (!g_line)
 		g_line = ft_strnew(0);
 	*c = ft_strnew(1);

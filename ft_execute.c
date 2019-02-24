@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/23 07:20:44 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 01:07:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_helper(char *cmd, char *file, t_params *params)
 	else
 	{
 		g_waiting = 1;
-		wait4(pid, NULL, 0, NULL);
+		wait(NULL);
 	}
 }
 

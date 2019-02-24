@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/22 03:50:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 01:55:40 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ int		ft_isvalid(char *key, char **val, t_list *list)
 	{
 		if ((!ft_isalnum(key[i]) && key[i] != '_') || ft_isdigit(key[0]))
 		{
-			ft_putstr_fd("err - >", 2);
-			ft_putchar_fd(key[i], 2);
-			ft_putchar_fd('\n', 2);
+			ft_putendl_fd("setenv: Variable name must begin with a letter.", 2);
 			return (0);
 		}
 		i++;

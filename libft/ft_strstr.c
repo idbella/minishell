@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_haystackhaystack.c                              :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 05:47:25 by sid-bell          #+#    #+#             */
-/*   Updated: 2018/10/14 17:17:49 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/23 22:24:56 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ char	*ft_strstr(const char *haystack, const char *needle)
 			return (NULL);
 		haystack_lenght = ft_strlen(str);
 		if (!ft_strncmp(str, needle, needle_lenght))
+		{
+			free(str);
 			return ((char *)haystack + i);
+		}
+		free(str);
 		i++;
 	}
 	return (NULL);

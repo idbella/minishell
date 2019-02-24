@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/23 07:06:59 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 03:16:14 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ static void	ft_helper(t_params *params, char **str)
 
 void		ft_browshistory(char **str, char direction, t_params *params)
 {
-	int		pos;
 	int		len;
 
-	pos = 0;
 	if (direction == 'A')
 	{
 		len = ft_lstcount(params->history);
