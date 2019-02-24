@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/22 08:25:58 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 07:00:32 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_gethome(char *str, t_params *params)
 {
 	int		i;
-	int		qoute;
+	t_bool	qoute;
 	char	*nv;
 	char	*result;
 
@@ -31,7 +31,6 @@ char	*ft_gethome(char *str, t_params *params)
 		{
 			result = ft_str_insert(&result, nv, i);
 			i += ft_strlen(nv) - 1;
-			qoute = 1;
 		}
 		else if (result[i] == '\"')
 			qoute = !qoute;

@@ -6,18 +6,22 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/23 05:31:01 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 05:47:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+** A => UP, B => DOWN, C => RIGHT, D LEFT
+*/
 
 static void	ft_helper2(t_params *params, char **str, char c)
 {
 	int		len;
 
 	len = ft_strlen(*str);
-	if (c == 68)
+	if (c == LEFT)
 	{
 		params->pos += 1;
 		*str = ft_delchar(str, len - params->pos);
@@ -27,7 +31,7 @@ static void	ft_helper2(t_params *params, char **str, char c)
 		*str = ft_delchar(str, len - params->pos - 1);
 		params->pos -= 1;
 	}
-	if (c == 'A' || c == 'B')
+	if (c == UP || c == DOWN)
 		ft_browshistory(str, c, params);
 }
 
@@ -39,7 +43,7 @@ static int	ft_helper1(t_params *params, char *last, char **str, char c)
 	result = 0;
 	if (last[0] == 27 && last[1] == 91)
 	{
-		if (c == 68 || c == 67 || c == 'A' || c == 'B')
+		if (c >= 'A' && c <= 'D')
 		{
 			ft_helper2(params, str, c);
 			result = 1;

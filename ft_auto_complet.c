@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/23 03:51:24 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 07:25:42 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ char		*ft_getval(char *prefix, t_params *params)
 
 	pwd = ft_pwd();
 	val = NULL;
-	val = ft_complete_dir(prefix, params);
+	val = ft_find_in_builtins(prefix);
 	if (!val)
-		val = ft_find_in_builtins(prefix);
+		val = ft_complete_dir(prefix, params);
 	if (!val)
 		val = ft_find_in_path(prefix, params);
 	if (!val)
@@ -68,8 +68,7 @@ static void	ft_helper(char **str, char *prefix, t_params *params,
 			tmp = *str;
 			*str = ft_strjoin(*str, " ");
 		}
-		if (val + ft_strlen(prefix))
-			ft_put_to_stdin(*str, params, preview_mode);
+		ft_put_to_stdin(*str, params, preview_mode);
 		free(val);
 		free(tmp);
 	}

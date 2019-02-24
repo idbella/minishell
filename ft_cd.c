@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/24 02:06:10 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 08:27:24 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ft_helper1(char **new)
 {
 	ft_putendl(*new);
-	ft_putendl("Unknown error");
+	ft_putendl("Permission denied");
 	free(*new);
 }
 

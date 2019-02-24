@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/24 01:11:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 06:10:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,18 @@ static void	ft_helper(char *c, char **str, t_params *params)
 {
 	int		len;
 	char	*tmp;
+	int		index;
 
 	len = ft_strlen(*str);
 	if (params->pos == 0 && len && !ft_isspace((*str)[len - 1]))
 		*str = ft_autocomplete(*str, params, 0);
 	else
 	{
-		len = ft_strlen(*str) - params->pos;
-		if (len >= 0)
+		index = len - params->pos;
+		if (index >= 0)
 		{
 			tmp = *str;
-			*str = ft_strinsert(*str, c, len);
+			*str = ft_strinsert(*str, c, index);
 			ft_put_to_stdin(*str, params, 0);
 			free(tmp);
 		}
@@ -97,7 +98,7 @@ char		*ft_getline(t_params *params)
 
 	ft_setup(last, &c, params);
 	while (1)
-		if (read(0, c, 1))
+		if (read(0, c, 1) > 0)
 		{
 			if (*c == '\n')
 			{
@@ -114,6 +115,6 @@ char		*ft_getline(t_params *params)
 				ft_autocomplete(ft_strdup(g_line), params, 1);
 		}
 		else
-			ft_bzero(c, 0);
+			ft_bzero(last, 3);
 	return (NULL);
 }

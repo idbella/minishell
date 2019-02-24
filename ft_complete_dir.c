@@ -6,19 +6,17 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/23 03:20:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 06:57:00 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_helper(int len, char *part, char *fullpart, t_params *params)
+static char	*ft_helper(char *dir, char *part, t_params *params)
 {
-	char	*dir;
 	char	*new_dir;
 	char	*result;
 
-	dir = ft_strsub(fullpart, 0, len);
 	if (dir[0] == '~')
 	{
 		new_dir = ft_gethome(dir, params);
@@ -42,13 +40,15 @@ char		*ft_complete_dir(char *fullpart, t_params *params)
 	char	*part;
 	int		len;
 	char	*result;
+	char	*dir;
 
 	len = ft_strlen(fullpart);
 	part = ft_strrchr(fullpart, '/');
 	if (part && (part += 1))
 	{
 		len = len - ft_strlen(part);
-		result = ft_helper(len, part, fullpart, params);
+		dir = ft_strsub(fullpart, 0, len);
+		result = ft_helper(dir, part, params);
 		return (result);
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 16:53:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/24 01:45:36 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/02/24 05:47:27 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@
 # define SHOW_CURSOR "\e[?25h"
 # define CLEAR_LINE "\33[2K\r"
 # define MV_CURSOR "\033[D"
+# define UP 'A'
+# define DOWN 'B'
+# define LEFT 'D'
+# define RIGHT 'C'
 
-int					g_waiting;
+int					g_waiting_child;
 char				*g_line;
 typedef char		t_bool;
 typedef struct stat	t_stat;

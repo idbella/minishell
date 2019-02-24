@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/24 01:50:50 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/02/24 04:22:06 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/02/24 05:11:14 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		main(int argc, char **argv, char **env)
 		while (1)
 		{
 			ft_putstr("$> ");
-			g_waiting = 0;
+			g_waiting_child = 0;
 			if ((command = ft_getline(&params)))
 				ft_getcommands(command, &params);
 			free(command);
